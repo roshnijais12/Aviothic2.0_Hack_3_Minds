@@ -1,13 +1,13 @@
-# Project Title: ConfidBoost
+# ConfidBoost
 
-## Short Description
+## Description
 ConfidBoost is an AI-powered platform designed to enhance learning and confidence. Users can practice, track progress, and improve skills for exams, interviews, or personal growth.
 
 ## Demo
 Try it live here: [ConfidBoost Demo](#)  <!-- replace # with your demo link -->
 
-## Screenshots
-![Homepage Screenshot](./images/homepage.png)  <!-- replace with your screenshot path -->
+## Screenshot
+![Homepage Screenshot](./images/home.png)  <!-- replace with your screenshot path -->
 ![Login Page Screenshot](./images/login.png)
 
 ## Problem Addressed & Proposed Solution
@@ -19,7 +19,7 @@ Try it live here: [ConfidBoost Demo](#)  <!-- replace # with your demo link -->
 - **Frameworks/Libraries:** None (vanilla JS frontend)  
 - **Tools:** VS Code, Git, GitHub  
 
-## How to Run Project
+## How to Run
 1. Clone the repository:  
    ```bash
    git clone <your-repo-link>
