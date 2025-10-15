@@ -7,8 +7,8 @@ ConfidBoost is an AI-powered platform designed to enhance learning and confidenc
 Try it live here: [ConfidBoost Demo](#)  <!-- replace # with your demo link -->
 
 ## Screenshot
-![Homepage Screenshot](home.png)  <!-- replace with your screenshot path -->
-![Login Page Screenshot](login.png)
+![Homepage Screenshot](./desktop/home.png)  <!-- replace with your screenshot path -->
+![Login Page Screenshot](./desktop/login.png)
 
 ## Problem Addressed & Proposed Solution
 **Problem:** Learners often struggle to practice effectively and track their progress in real-time.  
