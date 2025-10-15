@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>AI Interview Chatbot</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #dbeafe, #fef3c7);
+      margin: 0;
+      color: #111;
+    }
+
+    .wrapper {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 14px;
+      padding: 25px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      animation: fadeUp 0.6s ease-in;
+    }
+
+    @keyframes fadeUp {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    h1 {
+      text-align: center;
+      color: #2563eb;
+      margin: 0;
+      font-size: 26px;
+    }
+
+    #chatBox {
+      height: 420px;
+      overflow-y: auto;
+      background: #f9fafb;
+      margin-top: 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .message {
+      display: flex;
+      margin: 8px 0;
+    }
+
+    .bot { justify-content: flex-start; }
+    .user { justify-content: flex-end; }
+
+    .bubble {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 15px;
+      line-height: 1.4;
+      word-wrap: break-word;
+      animation: appear 0.3s ease;
+    }
+
+    @keyframes appear {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .bot .bubble {
+      background: #e0e7ff;
+      border-top-left-radius: 4px;
+    }
+
+    .user .bubble {
+      background: #bbf7d0;
+      color: #064e3b;
+      border-top-right-radius: 4px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 15px;
+      outline: none;
+      background: #fff;
+      cursor: text;
+    }
+
+    input[type="text"]:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px #bfdbfe;
+    }
+
+    button {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    button:hover { opacity: 0.9; }
+
+    #startBtn { background: #2563eb; color: #fff; }
+    #restartBtn { background: #ef4444; color: #fff; }
+    #sendBtn { background: #2563eb; color: #fff; }
+    #nextBtn { background: #10b981; color: #fff; }
+
+    select {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 10px;
+    }
+
+    .admin-panel {
+      margin-top: 20px;
+      padding: 12px;
+      border: 1px dashed #e5e7eb;
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      margin: 6px 0;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 60px;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+      resize: vertical;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <h1>🤖 AI Interview Chatbot</h1>
+
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;">
+      <select id="modeSelect">
+        <option value="sequential">Sequential</option>
+        <option value="random">Random</option>
+      </select>
+      <label style="display:flex;align-items:center;gap:6px;font-size:14px;">
+        <input type="checkbox" id="ttsToggle"> Bot speaks
+      </label>
+      <button id="startBtn">Start Interview</button>
+      <button id="restartBtn">Restart</button>
+    </div>
+
+    <div id="chatBox"></div>
+
+    <div class="controls">
+      <input type="text" id="inputField" placeholder="Type your answer here..." disabled>
+      <button id="sendBtn" disabled>Send</button>
+      <button id="nextBtn" disabled>Next</button>
+    </div>
+
+    <div class="note">💾 Answers are saved in your browser. You can also add custom questions below.</div>
+
+    <div class="admin-panel">
+      <h3 style="margin:0;">Admin: Add Question</h3>
+      <label>Category</label>
+      <select id="qCategory">
+        <option>HR</option>
+        <option>Coding</option>
+        <option>Behavioral</option>
+        <option>Technical</option>
+      </select>
+      <label>Question</label>
+      <textarea id="qInput" placeholder="e.g. What are your strengths?"></textarea>
+      <div style="margin-top:8px;display:flex;gap:8px;">
+        <button id="addQBtn" style="background:#6b7280;color:#fff;">Add</button>
+        <button id="clearBtn" style="background:#f97316;color:#fff;">Clear Answers</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_QS = [
+      {id: 1, type: "HR", question: "Tell me about yourself."},
+      {id: 2, type: "HR", question: "Why should we hire you?"},
+      {id: 3, type: "Coding", question: "Write a function to reverse a string."},
+      {id: 4, type: "Behavioral", question: "Describe a time you faced a team conflict."},
+      {id: 5, type: "Technical", question: "Explain REST vs GraphQL."}
+    ];
+
+    const STORAGE_Q = "ai_interview_questions";
+    const STORAGE_A = "ai_interview_answers";
+
+    function getStoredQuestions() {
+      try {
+        const data = localStorage.getItem(STORAGE_Q);
+        const parsed = data ? JSON.parse(data) : [];
+        const ids = new Set(parsed.map(q => q.id));
+        DEFAULT_QS.forEach(def => { if (!ids.has(def.id)) parsed.push(def); });
+        return parsed.sort((a, b) => a.id - b.id);
+      } catch {
+        return DEFAULT_QS;
+      }
+    }
+
+    function saveQuestions(list) {
+      localStorage.setItem(STORAGE_Q, JSON.stringify(list));
+    }
+
+    let questionList = getStoredQuestions();
+    let currentIdx = -1;
+    let order = [];
+    let savedAnswers = JSON.parse(localStorage.getItem(STORAGE_A) || "{}");
+
+    const chatBox = document.getElementById("chatBox");
+    const inputField = document.getElementById("inputField");
+    const sendBtn = document.getElementById("sendBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const startBtn = document.getElementById("startBtn");
+    const restartBtn = document.getElementById("restartBtn");
+    const modeSelect = document.getElementById("modeSelect");
+    const ttsToggle = document.getElementById("ttsToggle");
+    const addQBtn = document.getElementById("addQBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const qInput = document.getElementById("qInput");
+    const qCategory = document.getElementById("qCategory");
+
+    // Add bot message
+    function addBotMessage(msg) {
+      const el = document.createElement("div");
+      el.className = "message bot";
+      el.innerHTML = `<div class="bubble">${msg}</div>`;
+      chatBox.appendChild(el);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      if (ttsToggle.checked && 'speechSynthesis' in window) {
+        const utter = new SpeechSynthesisUtterance(msg);
+        speechSynthesis.cancel();
+        speechSynthesis.speak(utter);
+      }
+    }
+
+    // Add user message
+    function addUserMessage(msg) {
+      const el = document.createElement("div");
+      el.className = "message user";
+      el.innerHTML = `<div class="bubble">${msg}</div>`;
+      chatBox.appendChild(el);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function setInputState(active) {
+      inputField.disabled = !active;
+      sendBtn.disabled = !active;
+      if (active) inputField.focus();
+    }
+
+    function setQuestionOrder() {
+      questionList = getStoredQuestions();
+      order = [...Array(questionList.length).keys()];
+      if (modeSelect.value === "random") {
+        order.sort(() => Math.random() - 0.5);
+      }
+    }
+
+    function askNextQuestion() {
+      currentIdx++;
+      if (currentIdx >= order.length) {
+        addBotMessage("✅ That’s all for now! Well done.");
+        setInputState(false);
+        nextBtn.disabled = true;
+        sendBtn.disabled = true;
+        return;
+      }
+      const q = questionList[order[currentIdx]];
+      addBotMessage(`[${q.type}] ${q.question}`);
+      setInputState(true);
+      nextBtn.disabled = true;
+    }
+
+    // Events
+    startBtn.onclick = () => {
+      chatBox.innerHTML = "";
+      currentIdx = -1;
+      setQuestionOrder();
+      addBotMessage("👋 Hi! I’m your AI interviewer. Let’s begin!");
+      setInputState(false);
+      nextBtn.disabled = false;
+    };
+
+    restartBtn.onclick = () => {
+      chatBox.innerHTML = "";
+      currentIdx = -1;
+      setInputState(false);
+      nextBtn.disabled = true;
+      sendBtn.disabled = true;
+      addBotMessage("🔄 Interview restarted. Click 'Start Interview' again to begin.");
+    };
+
+    sendBtn.onclick = () => {
+      const text = inputField.value.trim();
+      if (!text) return;
+      addUserMessage(text);
+      const q = questionList[order[currentIdx]];
+      if (!savedAnswers[q.id]) savedAnswers[q.id] = [];
+      savedAnswers[q.id].push({text, time: new Date().toISOString()});
+      localStorage.setItem(STORAGE_A, JSON.stringify(savedAnswers));
+      inputField.value = "";
+      nextBtn.disabled = false;
+      setInputState(false);
+    };
+
+    nextBtn.onclick = askNextQuestion;
+
+    inputField.addEventListener("keydown", e => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendBtn.click();
+      }
+    });
+
+    addQBtn.onclick = () => {
+      const text = qInput.value.trim();
+      if (!text) return alert("Please enter a question!");
+      const arr = getStoredQuestions();
+      const newId = arr.length ? Math.max(...arr.map(q => q.id)) + 1 : 1;
+      arr.push({id: newId, type: qCategory.value, question: text});
+      saveQuestions(arr);
+      questionList = arr;
+      qInput.value = "";
+      alert("✅ Question added successfully! Restart to use it.");
+    };
+
+    clearBtn.onclick = () => {
+      if (confirm("Are you sure you want to delete all saved answers?")) {
+        localStorage.removeItem(STORAGE_A);
+        savedAnswers = {};
+        alert("🗑️ All saved answers cleared!");
+      }
+    };
+
+    // Initial greeting
+    addBotMessage("Welcome! Click 'Start Interview' to begin your AI interview session.");
+  </script>
+</body>
+</html>

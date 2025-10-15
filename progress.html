@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConfidBoost - Practice & Progress</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f4f7fc;
+      color: #1b1f3b;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #1e3a8a;
+      color: #e0f2fe;
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+
+    header h1 { margin: 0; font-size: 2rem; }
+    header p { margin: 0; color: #bfdbfe; }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 2rem auto;
+    }
+
+    h2 {
+      color: #1e3a8a;
+      border-left: 5px solid #3b82f6;
+      padding-left: 10px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .video-section, .quiz-section, .progress-section, .history-section {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    video, iframe { width: 100%; border-radius: 10px; }
+
+    #questionBox {
+      display: none;
+      background-color: #dbeafe;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .quiz-question { margin-bottom: 1rem; }
+    .quiz-question h4 { margin-bottom: 0.5rem; color: #1e3a8a; }
+
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    button:hover { background-color: #1e40af; }
+
+    .progress-bar {
+      background-color: #e0f2fe;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .progress {
+      height: 20px;
+      border-radius: 20px;
+      text-align: center;
+      line-height: 20px;
+      color: #fff;
+      font-size: 0.9rem;
+      width: 0%;
+      transition: width 1s ease-in-out;
+    }
+
+    .communication { background-color: #3b82f6; }
+    .technical { background-color: #2563eb; }
+    .confidence { background-color: #1e40af; }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #1e3a8a;
+      color: #e0f2fe;
+      margin-top: 2rem;
+    }
+    footer span { color: #93c5fd; }
+
+    #historyContainer {
+      background: #f0f9ff;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .history-entry {
+      margin-bottom: 15px;
+      padding: 10px;
+      background: #e0f2fe;
+      border-radius: 8px;
+    }
+    .history-entry p { margin: 3px 0; }
+
+    /* Floating buttons */
+    .floating-btns {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 1000;
+    }
+
+    .float-btn {
+      background-color: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+
+    .float-btn:hover {
+      transform: scale(1.1);
+      background-color: #1e40af;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      bottom: 90px;
+      right: 30px;
+      width: 320px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      padding: 15px;
+      z-index: 2000;
+    }
+
+    .popup-header {
+      font-weight: 600;
+      color: #1e3a8a;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .popup textarea {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      padding: 8px;
+      font-size: 14px;
+      resize: none;
+    }
+
+    .popup button {
+      margin-top: 10px;
+      width: 100%;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .popup button:hover {
+      background-color: #1e40af;
+    }
+
+    #chatArea {
+      background: #f8fafc;
+      height: 200px;
+      overflow-y: auto;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 8px;
+    }
+    .chat-msg { margin: 5px 0; }
+    .user { color: #1e3a8a; font-weight: 600; }
+    .bot { color: #2563eb; }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>ConfidBoost Practice Zone</h1>
+    <p>Interactive Interview Practice 🎥 + Progress Tracker 📊</p>
+  </header>
+
+  <div class="container">
+
+    <section class="video-section">
+      <h2>🎬 Interactive Interview Simulation</h2>
+      <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:10px;">
+        <iframe id="interviewVideo" 
+                src="https://www.youtube.com/embed/zIm_k9j0C50?enablejsapi=1"
+                style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                frameborder="0" allowfullscreen>
+        </iframe>
+      </div>
+      <div id="questionBox">
+        <p>👩‍💼 Interviewer: What will you do if you don’t know an answer during the interview?</p>
+        <button onclick="answer('honest')">Be honest and redirect</button>
+        <button onclick="answer('guess')">Try to guess something</button>
+      </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section class="quiz-section">
+      <h2>🧠 Quiz Round <span id="roundNumber">1</span></h2>
+      <div id="quizContainer"></div>
+      <button onclick="loadQuiz()">Start Quiz</button>
+      <button onclick="submitQuiz()">Submit Quiz</button>
+      <button id="nextRoundBtn" onclick="nextRound()" style="display:none;">Next Quiz Round ➡</button>
+    </section>
+
+    <!-- Progress Section -->
+    <section class="progress-section">
+      <h2>📊 Your Progress</h2>
+      <p>Communication Skills</p>
+      <div class="progress-bar"><div class="progress communication" id="comm">0%</div></div>
+      <p>Technical Knowledge</p>
+      <div class="progress-bar"><div class="progress technical" id="tech">0%</div></div>
+      <p>Confidence Level</p>
+      <div class="progress-bar"><div class="progress confidence" id="conf">0%</div></div>
+      <p id="statusText">Start the quiz to see your progress 📈</p>
+    </section>
+
+    <section class="history-section">
+      <h2>📜 Your Last Activity History</h2>
+      <div id="historyContainer">
+        <p>No activity yet. Start practicing to see your history here! ⏳</p>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    ConfidBoost © 2025 | <span>Practice • Learn • Grow</span>
+  </footer>
+
+  <div class="floating-btns">
+    <button class="float-btn" onclick="window.location.href='chatbot.html'" title="Chatbot">💬</button>
+    <button class="float-btn" onclick="window.location.href='help.html'" title="Help">❓</button>
+    <button class="float-btn" onclick="window.location.href='feedback page.html'" title="Feedback">📝</button>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Quiz Data
+    const quizzes = [
+      [
+        { q: "What is your greatest strength?", 
+          options: ["Punctuality", "Procrastination", "Ignoring work"], 
+          answer: 0 },
+        { q: "How to handle stress during an interview?", 
+          options: ["Panic", "Stay calm and composed", "Leave the interview"], 
+          answer: 1 },
+        { q: "Which skill improves confidence?", 
+          options: ["Avoiding eye contact", "Mock interviews", "Staying silent"], 
+          answer: 1 }
+      ],
+      [
+        { q: "What does HTML stand for?", 
+          options: ["Hyper Text Markup Language", "High Text Machine Language", "Home Tool Markup Language"], 
+          answer: 0 },
+        { q: "CSS is used for?", 
+          options: ["Structuring data", "Styling web pages", "Programming"], 
+          answer: 1 },
+        { q: "JavaScript can be used for?", 
+          options: ["Front-end only", "Back-end only", "Both front-end and back-end"], 
+          answer: 2 }
+      ]
+    ];
+
+    let currentRound = 0;
+    let scores = { communication: 0, technical: 0, confidence: 0 };
+
+    function loadQuiz() {
+      const container = document.getElementById("quizContainer");
+      container.innerHTML = "";
+      quizzes[currentRound].forEach((q, i) => {
+        let html = `<div class="quiz-question">
+          <h4>${i + 1}. ${q.q}</h4>`;
+        q.options.forEach((opt, idx) => {
+          html += `<label><input type="radio" name="q${i}" value="${idx}"> ${opt}</label><br>`;
+        });
+        html += `</div>`;
+        container.innerHTML += html;
+      });
+    }
+
+    function submitQuiz() {
+      const round = quizzes[currentRound];
+      let score = 0;
+      round.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected && parseInt(selected.value) === q.answer) score++;
+      });
+
+      const percent = Math.round((score / round.length) * 100);
+      if (currentRound === 0) {
+        scores.communication = percent;
+        scores.confidence = percent;
+      } else {
+        scores.technical = percent;
+      }
+
+      updateProgress();
+      document.getElementById("nextRoundBtn").style.display = currentRound < quizzes.length - 1 ? "inline-block" : "none";
+
+      // Add history entry
+      const hist = document.getElementById("historyContainer");
+      hist.innerHTML += `<div class="history-entry"><p><strong>Round ${currentRound + 1}</strong> - Score: ${percent}%</p></div>`;
+    }
+
+    function updateProgress() {
+      document.getElementById("comm").style.width = scores.communication + "%";
+      document.getElementById("comm").textContent = scores.communication + "%";
+      document.getElementById("tech").style.width = scores.technical + "%";
+      document.getElementById("tech").textContent = scores.technical + "%";
+      document.getElementById("conf").style.width = scores.confidence + "%";
+      document.getElementById("conf").textContent = scores.confidence + "%";
+      document.getElementById("statusText").textContent = "Progress updated successfully ✅";
+    }
+
+    function nextRound() {
+      currentRound++;
+      document.getElementById("roundNumber").textContent = currentRound + 1;
+      loadQuiz();
+      document.getElementById("nextRoundBtn").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

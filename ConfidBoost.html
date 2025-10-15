@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ConfidBoost - Home</title>
+
+  <style>
+    /* === Animations === */
+    @keyframes fadeFloat {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", "Segoe UI", Tahoma, sans-serif;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+      background-size: 200% 200%;
+      animation: gradientMove 12s ease infinite;
+    }
+
+    /* Soft floating light effects */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.08), transparent 70%),
+                  radial-gradient(circle at 75% 75%, rgba(255,255,255,0.08), transparent 70%);
+      animation: gradientMove 16s ease infinite;
+      z-index: 0;
+    }
+
+    /* === Glass Card === */
+    header {
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 50px 60px;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      animation: fadeFloat 1.2s ease-out;
+      max-width: 750px;
+    }
+
+    h1 {
+      font-size: 3.5em;
+      font-weight: 700;
+      background: linear-gradient(90deg, #00c6ff, #0072ff, #00f5a0, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientMove 6s ease infinite;
+      background-size: 200%;
+      text-shadow: 0 0 20px rgba(0,255,255,0.5);
+      margin-bottom: 15px;
+    }
+
+    p.welcome {
+      font-size: 1.25em;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 30px;
+      line-height: 1.6;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* === Button Styles === */
+    .button {
+      border: none;
+      border-radius: 50px;
+      padding: 14px 40px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 12px;
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+      transition: all 0.4s ease;
+    }
+
+    .button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.25), transparent 60%);
+      transition: all 0.5s;
+    }
+
+    .button:hover::before {
+      left: 100%;
+    }
+
+    .button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 25px rgba(255,255,255,0.3);
+    }
+
+    /* === Individual Button Colors === */
+    .menu {
+      background: linear-gradient(90deg, #36d1dc, #5b86e5);
+      box-shadow: 0 0 20px rgba(91,134,229,0.4);
+    }
+
+    .register {
+      background: linear-gradient(90deg, #00f260, #0575e6);
+      box-shadow: 0 0 20px rgba(0,242,96,0.4);
+    }
+
+    .login {
+      background: linear-gradient(90deg, #8360c3, #2ebf91);
+      box-shadow: 0 0 20px rgba(131,96,195,0.4);
+    }
+
+    .about-button {
+      background: linear-gradient(90deg, #ff512f, #dd2476);
+      box-shadow: 0 0 20px rgba(255,81,47,0.4);
+    }
+
+    .auth-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    /* === About Section === */
+    .about-section {
+      z-index: 1;
+      margin-top: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 18px;
+      padding: 30px 40px;
+      text-align: center;
+      color: #e0f7fa;
+      max-width: 700px;
+      backdrop-filter: blur(15px);
+      display: none;
+      animation: fadeFloat 0.6s ease;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    .about-section.show {
+      display: block;
+    }
+
+    .about-section h2 {
+      color: #00eaff;
+      margin-bottom: 15px;
+      font-size: 1.8em;
+      text-shadow: 0 0 10px rgba(0,234,255,0.6);
+    }
+
+    /* === Responsive === */
+    @media (max-width: 600px) {
+      header { padding: 35px 20px; }
+      h1 { font-size: 2.6em; }
+      p.welcome { font-size: 1em; }
+      .button { font-size: 1em; padding: 12px 28px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>ConfidBoost</h1>
+    <p class="welcome">
+      Welcome to <strong>ConfidBoost</strong> — your AI-powered confidence partner.<br>
+      Learn, improve, and master your interviews with real-time intelligent feedback.
+    </p>
+
+    <!-- ✅ Menu Button restored -->
+    <button class="button menu" onclick="window.location.href='progress.html'">Menu</button>
+
+    <div class="auth-buttons">
+      <button class="button register" onclick="window.location.href='register.html'">Register</button>
+      <button class="button login" onclick="window.location.href='login.html'">Login</button>
+      <button class="button about-button" id="aboutBtn">About</button>
+    </div>
+  </header>
+
+  <section class="about-section" id="aboutSection">
+    <h2>About ConfidBoost</h2>
+    <p>
+      ConfidBoost is your virtual interview coach — powered by AI to analyze your tone, confidence, and clarity.<br>
+      Get instant personalized feedback and boost your performance with every session. 🚀
+    </p>
+  </section>
+
+  <script>
+    const aboutBtn = document.getElementById('aboutBtn');
+    const aboutSection = document.getElementById('aboutSection');
+    aboutBtn.addEventListener('click', () => {
+      aboutSection.classList.toggle('show');
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
