@@ -7,7 +7,7 @@ ConfidBoost is an AI-powered platform designed to enhance learning and confidenc
 Try it live here: [ConfidBoost Demo](#)  <!-- replace # with your demo link -->
 
 ## Screenshot
-![Homepage Screenshot](./desktop/home.png)  <!-- replace with your screenshot path -->
+![Homepage Screenshot](C:\Users\hp\Desktophome.png)  <!-- replace with your screenshot path -->
 ![Login Page Screenshot](./desktop/login.png)
 
 ## Problem Addressed & Proposed Solution
