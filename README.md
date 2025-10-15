@@ -1,2 +1,25 @@
-# ConfidBoost
-ConfidBoost is a modern, responsive web platform designed to help users practice, learn, and boost their confidence through interactive quizzes, feedback forms, and an AI-powered chatbot interface. Built entirely with front-end technologies, it delivers a smooth and engaging user experience.
+# Project Title: ConfidBoost
+
+## Short Description
+ConfidBoost is an AI-powered platform designed to enhance learning and confidence. Users can practice, track progress, and improve skills for exams, interviews, or personal growth.
+
+## Demo
+Try it live here: [ConfidBoost Demo](#)  <!-- replace # with your demo link -->
+
+## Screenshots
+![Homepage Screenshot](./images/homepage.png)  <!-- replace with your screenshot path -->
+![Login Page Screenshot](./images/login.png)
+
+## Problem Addressed & Proposed Solution
+**Problem:** Learners often struggle to practice effectively and track their progress in real-time.  
+**Solution:** ConfidBoost provides a gamified and interactive platform with AI guidance to help learners improve confidence and skills efficiently.
+
+## Tech Stack & Tools Used
+- **Frontend:** HTML, CSS, JavaScript  
+- **Frameworks/Libraries:** None (vanilla JS frontend)  
+- **Tools:** VS Code, Git, GitHub  
+
+## How to Run Project
+1. Clone the repository:  
+   ```bash
+   git clone <your-repo-link>
